@@ -40,47 +40,16 @@ import streamlit as st
 import io
 from datetime import datetime
 import time
-
+import joblib
 import warnings
 
 # Ignorer tous les avertissements
 warnings.filterwarnings("ignore")
 
-sheets= pd.ExcelFile("https://github.com/Azzeddine212/MMV_NRJ_CHEV/blob/main/2024 - Model multi-variable ISO 50 001.xlsx").sheet_names
-df=pd.read_excel("https://github.com/Azzeddine212/MMV_NRJ_CHEV/blob/main/2024 - Model multi-variable ISO 50 001.xlsx",sheet_name='Compilation données reduite', converters={"Date":pd.to_datetime})
-df_jours=df[['Date', 'Tonnage Cossettes vers BW', 'Tonnage Cossettes vers RT',
-       'Jus soutiré BW', 'Jus soutiré RT', 'Temp. JAE entrée réchauffeur n°1',
-       ' Temp. JAE sortie réchauffeur n°6', 'Brix LS1',
-       'Débit mélasse sortie usine', 'Débit Jus clair 1', 'Temp. Jus chaulé ',
-       ' Temp. JC1', 'Brix Mélasse', 'Ratio kWh /coss','Pression Vapeur VE  sortie turbo', 'Débit Jus chaulé',
-       'Richesse cossettes', 'Vide condenseur', 'Brix JAE',
-       'Débit Sucre bande peseuse','Débit sirop fers fondoir', 'Débit sirop stocké',
-       'Brix sirop sortie evapo', 'Débit JAE entrée évaporation']]
+# Charger le modèle avec pickle
+with open('model.pkl', 'rb') as file:
+    model_CHE_gb = pickle.load(file)
 
-df_jours = df_jours.sort_values(by='Date')
-
-df_jours = df_jours.reset_index(drop=True)
-df_jours=df_jours.drop(columns='Date')
-df_jours = df_jours[(df_jours[' Temp. JAE sortie réchauffeur n°6'] <= 150) & (df_jours['Débit Jus clair 1'] >= 250) &
-(df_jours['Temp. Jus chaulé '] >= 60) & (df_jours[' Temp. JC1'] >= 60) &  (df_jours['Débit Jus chaulé'] >= 250)]
-
-#df_CHE = df_jours[['Jus soutiré RT', 'Jus soutiré BW', 'Pression Vapeur VE  sortie turbo',' Temp. JAE sortie réchauffeur n°6', 'Brix JAE','Débit JAE entrée évaporation','Débit Sucre bande peseuse','Ratio kWh /coss']]
-#df_CHE = df_jours[['Tonnage Cossettes vers BW', 'Tonnage Cossettes vers RT', ' Temp. JAE sortie réchauffeur n°6', 'Brix JAE','Brix sirop sortie evapo','Débit JAE entrée évaporation','Débit Sucre bande peseuse','Ratio kWh /coss']]
-df_CHE = df_jours[['Jus soutiré RT', 'Jus soutiré BW', ' Temp. JAE sortie réchauffeur n°6', 'Brix JAE','Brix sirop sortie evapo','Débit JAE entrée évaporation','Débit Sucre bande peseuse','Ratio kWh /coss']]
-
-X_CHE = df_CHE.drop(['Ratio kWh /coss'], axis=1)
-y_CHE = df_CHE[['Ratio kWh /coss']]
-
-scaler = StandardScaler()
-x_scaled_CHE = scaler.fit_transform(X_CHE)
-
-x_train_CHE, x_test_CHE, y_train_CHE, y_test_CHE = train_test_split(x_scaled_CHE, y_CHE, test_size=0.1, random_state=42)
-
-
-# Ajuster un modèle de Gradient Boosting avec 100 arbres
-
-model_CHE_gb = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1, random_state=42)
-model_CHE_gb .fit(x_train_CHE , y_train_CHE )
 
 gb_CHE_pred_test  = model_CHE_gb .predict(x_test_CHE )
 gb_CHE_pred_train  = model_CHE_gb .predict(x_train_CHE )
