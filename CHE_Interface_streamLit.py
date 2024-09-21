@@ -44,49 +44,17 @@ import joblib
 import pickle
 import warnings
 
+import streamlit as st
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import GradientBoostingRegressor
+import matplotlib.dates as mdates
+
 # Ignorer tous les avertissements
 warnings.filterwarnings("ignore")
 
 # Charger le modèle avec pickle
 model_CHE_gb  = joblib.load('model.pkl')
-
-
-gb_CHE_pred_test  = model_CHE_gb .predict(x_test_CHE )
-gb_CHE_pred_train  = model_CHE_gb .predict(x_train_CHE )
-
-#print("\n")
-#print("Gradient Boosting_ result")
-
-# Calculer l'erreur quadratique moyenne (MSE)
-gb_CHE_mse_test  = mean_squared_error(y_test_CHE, gb_CHE_pred_test )
-#print("Mean Squared Error_test:", gb_CHE_mse_test.round(2))
-gb_CHE_mse_train  = mean_squared_error(y_train_CHE, gb_CHE_pred_train )
-#print("Mean Squared Error_train:", gb_CHE_mse_train.round(2))
-
-# Calculer le coefficient de détermination sur l'ensemble de test
-gb_CHE_r_squared_test = model_CHE_gb.score( x_test_CHE, y_test_CHE)
-#print("Coefficient de détermination (R²_test) :", gb_CHE_r_squared_test.round(2))
-
-# Calculer le coefficient de détermination sur l'ensemble de train
-gb_CHE_r_squared_train = model_CHE_gb.score( x_train_CHE, y_train_CHE)
-#print("Coefficient de détermination (R²_train) :", gb_CHE_r_squared_train.round(2))
-
-# Calculer l'erreur absolue moyenne (MAE)
-gb_CHE_mae = mean_absolute_error(y_test_CHE, gb_CHE_pred_test )
-#print("Mean Absolute Error (MAE) :", gb_CHE_mae.round(2))
-
-gb_CHE_rmse_test = gb_CHE_mse_test ** 0.5
-#print("Root Mean Squared Error_Test (RMSE) :", gb_CHE_rmse_test.round(2))
-gb_CHE_rmse_train = gb_CHE_mse_train ** 0.5
-#print("Root Mean Squared Error_Train (RMSE) :", gb_CHE_rmse_train.round(2))
-
-
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import GradientBoostingRegressor
-import matplotlib.dates as mdates
 
 # Assuming model_CHE_gb and scaler are already defined and trained
 
