@@ -46,8 +46,8 @@ import warnings
 # Ignorer tous les avertissements
 warnings.filterwarnings("ignore")
 
-sheets= pd.ExcelFile("C:/Users/arahmouni/Projets Data Science/Model NRJ TSF-TSSE/Chevrières/2024 - Model multi-variable ISO 50 001.xlsx").sheet_names
-df=pd.read_excel("C:/Users/arahmouni/Projets Data Science/Model NRJ TSF-TSSE/Chevrières/2024 - Model multi-variable ISO 50 001.xlsx",sheet_name='Compilation données reduite', converters={"Date":pd.to_datetime})
+sheets= pd.ExcelFile("https://github.com/Azzeddine212/MMV_NRJ_CHEV/blob/main/2024 - Model multi-variable ISO 50 001.xlsx").sheet_names
+df=pd.read_excel("https://github.com/Azzeddine212/MMV_NRJ_CHEV/blob/main/2024 - Model multi-variable ISO 50 001.xlsx",sheet_name='Compilation données reduite', converters={"Date":pd.to_datetime})
 df_jours=df[['Date', 'Tonnage Cossettes vers BW', 'Tonnage Cossettes vers RT',
        'Jus soutiré BW', 'Jus soutiré RT', 'Temp. JAE entrée réchauffeur n°1',
        ' Temp. JAE sortie réchauffeur n°6', 'Brix LS1',
