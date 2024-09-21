@@ -41,6 +41,7 @@ import io
 from datetime import datetime
 import time
 import joblib
+import pickle
 import warnings
 
 # Ignorer tous les avertissements
