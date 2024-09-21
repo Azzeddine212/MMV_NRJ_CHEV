@@ -96,6 +96,9 @@ if st.button("Prédire le Ratio kWh /coss"):
         }
         
         df_CHE_testing = pd.DataFrame(df_CHE_testing)
+
+        # Charger le scaler avec pickle
+        scaler  = joblib.load('scaler.pkl')
         
         # Standardize the input values
         x_testing = scaler.transform(df_CHE_testing)
