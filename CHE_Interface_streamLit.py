@@ -48,7 +48,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Charger le modèle avec pickle
-gb_CHE_pred_test  = joblib.load('model.pkl')
+model_CHE_gb  = joblib.load('model.pkl')
 
 
 gb_CHE_pred_test  = model_CHE_gb .predict(x_test_CHE )
