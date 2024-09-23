@@ -56,61 +56,7 @@ warnings.filterwarnings("ignore")
 # Charger le modèle avec pickle
 model_CHE_gb  = joblib.load('model.pkl')
 
-# Assuming model_CHE_gb and scaler are already defined and trained
-
 # Initialize or retrieve the prediction history from session_state
-if 'conso_NRJ' not in st.session_state:
-    st.session_state.conso_NRJ = []
-
-# Initialiser des listes pour stocker les horodatages et les valeurs
-if 'timestamps' not in st.session_state:
-    st.session_state.timestamps = []
-
-# Streamlit App Title
-st.title("Prédiction du Ratio kWh /coss")
-
-# List of parameter names
-parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
-                   'Brix JAE', 'Brix sirop sortie evapo', 'Débit JAE entrée évaporation',
-                   'Débit Sucre bande peseuse']
-
-# Create a dictionary to hold input values from the user
-parametres = {}
-
-# Loop to create number input fields for each parameter
-for parametre in parametres_list:
-    parametres[parametre] = st.sidebar.number_input(f"Veuillez entrer la valeur de {parametre}:", value=0.0)
-
-# Create a button to trigger the prediction
-if st.button("Prédire le Ratio kWh /coss"):
-    try:
-        # Create a DataFrame for the user inputs
-        df_CHE_testing = {
-            'Jus soutiré RT': [parametres['Jus soutiré RT']],
-            'Jus soutiré BW': [parametres['Jus soutiré BW']],
-            ' Temp. JAE sortie réchauffeur n°6': [parametres['Temp. JAE sortie réchauffeur n°6']],
-            'Brix JAE': [parametres['Brix JAE']],
-            'Brix sirop sortie evapo': [parametres['Brix sirop sortie evapo']],
-            'Débit JAE entrée évaporation': [parametres['Débit JAE entrée évaporation']],
-            'Débit Sucre bande peseuse': [parametres['Débit Sucre bande peseuse']]
-        }
-        
-        df_CHE_testing = pd.DataFrame(df_CHE_testing)
-
-        # Charger le scaler avec pickle
-        scaler  = joblib.load('scaler.pkl')
-        
-        # Standardize the input values
-        x_testing = scaler.transform(df_CHE_testing)
-        
-        # Predict with the trained model
-        gb_CHE_pred_testing = model_CHE_gb.predict(x_testing)
-
-        nrj = gb_CHE_pred_testing[0].round(2)
-        
-        
-       
- Initialize or retrieve the prediction history from session_state
 if 'conso_NRJ' not in st.session_state:
     st.session_state.conso_NRJ = []
 
@@ -128,16 +74,9 @@ st.markdown("""
         color: red;                /* Couleur du texte */
         font-size: 55px;           /* Taille de la police */
     }
-    .azz-title {
-            text-align: center;        /* Centrer le texte */
-            color: blue;                /* Couleur du texte */
-            font-size: 40px;           /* Taille de la police */
-            white-space: nowrap;       /* Empêcher le retour à la ligne */
-        }        
-
     </style>
 """, unsafe_allow_html=True)
-st.markdown("<h1 class='centered-title'>Prédiction de la consommation Energie Tereos Chevrières</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='centered-title'>Prédiction du Ratio Energie_Tereos Chevrières</h1>", unsafe_allow_html=True)
 
 # List of parameter names
 parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
@@ -221,6 +160,17 @@ if st.sidebar.markdown('<div class="center-button"><button>Prédire le Ratio kWh
         'Horodatage': st.session_state.timestamps, 'Prédiction du Ratio kWh /coss': st.session_state.conso_NRJ
         })
 
+        # Titre de la page
+        st.markdown("""
+        <style>
+        .azz-title {
+            text-align: center;        /* Centrer le texte */
+            color: blue;                /* Couleur du texte */
+            font-size: 40px;           /* Taille de la police */
+            white-space: nowrap;       /* Empêcher le retour à la ligne */
+        }
+        </style>
+    """, unsafe_allow_html=True)
         st.markdown("<h1 class='azz-title'>Affichage des données enregistrées</h1>", unsafe_allow_html=True)
         #st.title('Affichage des données enregistrées ')
 
