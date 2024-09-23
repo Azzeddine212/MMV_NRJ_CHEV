@@ -72,7 +72,7 @@ def add_bg_from_local(image_file):
         )
 
 # Vérification avec une image locale
-add_bg_from_local('Tereos chevrières.jpg')
+add_bg_from_local('interface.jpg')
 
 
 # Ignorer tous les avertissements
@@ -99,7 +99,7 @@ st.markdown("""
     <style>
     .centered-title {
         text-align: center;        /* Centrer le texte */
-        color: red;                /* Couleur du texte */
+        color: black;                /* Couleur du texte */
         font-size: 55px;           /* Taille de la police */
     }
     </style>
@@ -193,7 +193,7 @@ if st.sidebar.markdown('<div class="center-button"><button>Prédire le Ratio kWh
         <style>
         .azz-title {
             text-align: center;        /* Centrer le texte */
-            color: blue;                /* Couleur du texte */
+            color: white;                /* Couleur du texte */
             font-size: 40px;           /* Taille de la police */
             white-space: nowrap;       /* Empêcher le retour à la ligne */
         }
