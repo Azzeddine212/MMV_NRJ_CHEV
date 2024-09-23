@@ -50,6 +50,29 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib.dates as mdates
 
+
+# Ajouter l'image en arrière-plan via CSS
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image:
+        encoded_image = base64.b64encode(image.read()).decode()
+        st.markdown(
+            f"""
+            <style>
+            .stApp  {{
+                background-image: url("data:image/png;base64,{encoded_image}");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+# Vérification avec une image locale
+add_bg_from_local('Tereos chevrières.jpg')
+
+
 # Ignorer tous les avertissements
 warnings.filterwarnings("ignore")
 
