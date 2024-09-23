@@ -49,6 +49,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import GradientBoostingRegressor
 import matplotlib.dates as mdates
+from PIL import Image
+import base64
 
 
 # Ajouter l'image en arrière-plan via CSS
