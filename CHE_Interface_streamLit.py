@@ -56,6 +56,9 @@ warnings.filterwarnings("ignore")
 # Charger le modèle avec pickle
 model_CHE_gb  = joblib.load('model.pkl')
 
+# Charger le scaler avec pickle
+scaler  = joblib.load('scaler.pkl')
+
 # Initialize or retrieve the prediction history from session_state
 if 'conso_NRJ' not in st.session_state:
     st.session_state.conso_NRJ = []
