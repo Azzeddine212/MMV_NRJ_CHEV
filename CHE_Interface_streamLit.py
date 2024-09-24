@@ -1,16 +1,9 @@
 import pandas as pd
-import numpy as np
-import statsmodels.api as sm
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import GradientBoostingRegressor
-import matplotlib.pyplot as plt
-import seaborn as sns
 import joblib
 import warnings
 import streamlit as st
 from datetime import datetime
+import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from PIL import Image
 import base64
@@ -65,22 +58,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown("<h1 class='centered-title'>Modèle MMV Énergie_Chevrières</h1>", unsafe_allow_html=True)
 
-# List of parameter names
+# Liste des paramètres
 parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
                    'Brix JAE', 'Brix sirop sortie evapo', 'Débit JAE entrée évaporation',
                    'Débit Sucre bande peseuse']
 
-# Create a dictionary to hold input values from the user
+# Dictionnaire pour stocker les valeurs d'entrée de l'utilisateur
 parametres = {}
 
-# Loop to create number input fields for each parameter
+# Boucle pour créer des champs d'entrée pour chaque paramètre
 for parametre in parametres_list:
     parametres[parametre] = st.sidebar.number_input(f"Veuillez entrer la valeur de {parametre}:", value=0.0)
 
-# Create a button to trigger the prediction
+# Bouton pour déclencher la prédiction
 if st.sidebar.button("Calcul Ratio Énergie"):
     try:
-        # Create a DataFrame for the user inputs
+        # Créer un DataFrame pour les entrées utilisateur
         df_CHE_testing = pd.DataFrame({
             'Jus soutiré RT': [parametres['Jus soutiré RT']],
             'Jus soutiré BW': [parametres['Jus soutiré BW']],
@@ -91,31 +84,30 @@ if st.sidebar.button("Calcul Ratio Énergie"):
             'Débit Sucre bande peseuse': [parametres['Débit Sucre bande peseuse']]
         })
 
-        # Standardize the input values
+        # Standardiser les valeurs d'entrée
         x_testing = scaler.transform(df_CHE_testing)
 
-        # Predict with the trained model
+        # Prédiction avec le modèle entraîné
         gb_CHE_pred_testing = model_CHE_gb.predict(x_testing)
 
+        # Arrondir la prédiction
         nrj = gb_CHE_pred_testing[0].round(2)
 
-        # Enregistrer la valeur et le timestamp actuel
+        # Enregistrer la valeur et l'horodatage
         maintenant = datetime.now()
         st.session_state.timestamps.append(maintenant)
-
-        # Append the prediction to session_state
         st.session_state.conso_NRJ.append(nrj)
 
-        # Display the prediction result
+        # Affichage du résultat de la prédiction
         st.markdown(f"<h1 style='text-align: center; color: white; font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/tcoss </h1>", unsafe_allow_html=True)
 
-        # Create DataFrame for historical data
+        # Créer un DataFrame pour les données historiques
         historique_df = pd.DataFrame({
             'Horodatage': st.session_state.timestamps, 
             'Calcul Ratio Énergie': st.session_state.conso_NRJ
         })
 
-        # Display stored data in a dataframe
+        # Afficher les données enregistrées
         st.markdown("""
         <style>
         .azz-title {
@@ -128,23 +120,24 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         st.markdown("<h1 class='azz-title'>Affichage des données enregistrées</h1>", unsafe_allow_html=True)
         st.dataframe(historique_df)
 
-        # Plot the prediction curve
+        # Tracer l'évolution des prédictions
         plt.figure(figsize=(15, 6))
         plt.plot(historique_df['Horodatage'], historique_df['Calcul Ratio Énergie'], marker='o', linestyle='-', color='b')
-        plt.title('Évolution des prédictions de consommation d\'énergie')
+        plt.title("Évolution des prédictions de consommation d'énergie")
         plt.xlabel('Date Mesure')
         plt.ylabel('Prédiction du Ratio kWh/tcoss')
         plt.ylim(50, 300)
         plt.grid(True)
 
-        # Format the date on the x-axis
+        # Formatage des dates sur l'axe x
         plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
         plt.gcf().autofmt_xdate()
 
         st.pyplot(plt)
 
     except ValueError:
-        #st.error("Erreur: Veuillez entrer un nombre valide pour chaque paramètre.")
-        st.error.markdown(<h1 style='text-align: center; color: white; font-size: 38px;'>Erreur: Veuillez entrer un nombre valide pour chaque paramètre.</h1>", unsafe_allow_html=True)
+        # Afficher une erreur si l'utilisateur entre une valeur invalide
+        st.markdown("<h1 style='text-align: center; color: red; font-size: 25px;'>Erreur: Veuillez entrer un nombre valide pour chaque paramètre.</h1>", unsafe_allow_html=True)
     except Exception as e:
+        # Afficher tout autre type d'erreur
         st.error(f"Une erreur est survenue : {e}")
