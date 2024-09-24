@@ -95,7 +95,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         nrj = gb_CHE_pred_testing[0].round(2)
 
         # Enregistrer la valeur et l'horodatage
-        maintenant = datetime.now()
+        maintenant = datetime.now() + timedelta(hours=2)
         st.session_state.timestamps.append(maintenant)
         st.session_state.conso_NRJ.append(nrj)
 
