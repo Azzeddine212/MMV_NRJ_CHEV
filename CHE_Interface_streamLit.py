@@ -127,7 +127,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         plt.title("Évolution des prédictions de consommation d'énergie")
         plt.xlabel('Date Mesure')
         plt.ylabel('Prédiction du Ratio kWh/tcoss')
-        plt.ylim(100, 250)
+        plt.ylim(120, 220)
         plt.grid(True)
 
         # Formatage des dates sur l'axe x
