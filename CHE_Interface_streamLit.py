@@ -144,6 +144,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         st.pyplot(plt)
 
     except ValueError:
-        st.error("Erreur: Veuillez entrer un nombre valide pour chaque paramètre.")
+        #st.error("Erreur: Veuillez entrer un nombre valide pour chaque paramètre.")
+        st.error.markdown(<h1 style='text-align: center; color: white; font-size: 38px;'>Erreur: Veuillez entrer un nombre valide pour chaque paramètre.</h1>", unsafe_allow_html=True)
     except Exception as e:
         st.error(f"Une erreur est survenue : {e}")
