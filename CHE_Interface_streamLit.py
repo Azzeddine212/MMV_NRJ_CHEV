@@ -100,7 +100,7 @@ st.markdown("""
     .centered-title {
         text-align: center;        /* Centrer le texte */
         color: white;                /* Couleur du texte */
-        font-size: 55px;           /* Taille de la police 
+        font-size: 48px;           /* Taille de la police 
         white-space: nowrap;       /* Empêcher le retour à la ligne */
     }
     </style>
@@ -183,7 +183,7 @@ if st.sidebar.markdown('<div class="center-button"><button>Prédire le Ratio kWh
         #st.write(f"Prédiction du Ratio kWh /coss: {nrj}")
 
 
-        st.markdown(f"<h1 style='text-align: center; color: white;font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/coss </h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; color: white;font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/tcoss </h1>", unsafe_allow_html=True)
 
         historique_df = pd.DataFrame({
         'Horodatage': st.session_state.timestamps, 'Prédiction du Ratio kWh /coss': st.session_state.conso_NRJ
