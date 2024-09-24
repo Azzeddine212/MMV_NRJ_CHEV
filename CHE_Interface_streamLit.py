@@ -105,7 +105,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-st.markdown("<h1 class='centered-title'>Prédiction de la consommation  Energie_Chevrières</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='centered-title'>Modéle MMV Energie_Chevrières</h1>", unsafe_allow_html=True)
 
 # List of parameter names
 parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
