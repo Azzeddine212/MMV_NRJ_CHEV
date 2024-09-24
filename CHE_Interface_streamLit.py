@@ -75,13 +75,13 @@ if st.sidebar.button("Calcul Ratio Énergie"):
     try:
         # Créer un DataFrame pour les entrées utilisateur
         df_CHE_testing = pd.DataFrame({
-            'Jus soutiré RT': [parametres['Jus soutiré RT']],
-            'Jus soutiré BW': [parametres['Jus soutiré BW']],
-            'Temp. JAE sortie réchauffeur n°6': [parametres['Temp. JAE sortie réchauffeur n°6']],
-            'Brix JAE': [parametres['Brix JAE']],
-            'Brix sirop sortie evapo': [parametres['Brix sirop sortie evapo']],
-            'Débit JAE entrée évaporation': [parametres['Débit JAE entrée évaporation']],
-            'Débit Sucre bande peseuse': [parametres['Débit Sucre bande peseuse']]
+            'Jus soutiré RT': [float(parametres['Jus soutiré RT'])],
+            'Jus soutiré BW': [float(parametres['Jus soutiré BW'])],
+            ' Temp. JAE sortie réchauffeur n°6': [float(parametres['Temp. JAE sortie réchauffeur n°6'])],
+            'Brix JAE': [float(parametres['Brix JAE'])],
+            'Brix sirop sortie evapo': [float(parametres['Brix sirop sortie evapo'])],
+            'Débit JAE entrée évaporation': [float(parametres['Débit JAE entrée évaporation'])],
+            'Débit Sucre bande peseuse': [float(parametres['Débit Sucre bande peseuse'])]
         })
         df_CHE_testing = pd.DataFrame(df_CHE_testing)
         
