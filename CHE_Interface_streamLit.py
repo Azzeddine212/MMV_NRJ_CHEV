@@ -137,7 +137,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
 
     except ValueError:
         # Afficher une erreur si l'utilisateur entre une valeur invalide
-        st.error.markdown("<h1 style='text-align: center; color: red; font-size: 25px;'>Erreur: Veuillez entrer un nombre valide pour chaque paramètre.</h1>", unsafe_allow_html=True)
+        st.error("Erreur: Veuillez entrer un nombre valide pour chaque paramètre.")
     except Exception as e:
         # Afficher tout autre type d'erreur
         st.error(f"Une erreur est survenue : {e}")
