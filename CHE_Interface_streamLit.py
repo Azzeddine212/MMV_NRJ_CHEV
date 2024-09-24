@@ -100,7 +100,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         st.session_state.conso_NRJ.append(nrj)
 
         # Affichage du résultat de la prédiction
-        st.markdown(f"<h1 style='text-align: center; color: white; font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/tcoss </h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; color: white; font-size: 32px;'>Prédiction du Ratio NRJ : {nrj} kWh/tcoss </h1>", unsafe_allow_html=True)
 
         # Créer un DataFrame pour les données historiques
         historique_df = pd.DataFrame({
