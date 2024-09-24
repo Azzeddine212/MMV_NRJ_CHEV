@@ -99,7 +99,7 @@ st.markdown("""
     <style>
     .centered-title {
         text-align: center;        /* Centrer le texte */
-        color: black;                /* Couleur du texte */
+        color: white;                /* Couleur du texte */
         font-size: 55px;           /* Taille de la police */
     }
     </style>
@@ -132,7 +132,7 @@ st.sidebar.markdown("""
         justify-content: center;
     }
     .center-button button {
-        background-color: blue;  /* Couleur de fond */
+        background-color: white;  /* Couleur de fond */
         color: white;               /* Couleur du texte */
         padding: 20px 48px;         /* Ajuster la taille du bouton */
         font-size: 23px;            /* Taille de la police */
