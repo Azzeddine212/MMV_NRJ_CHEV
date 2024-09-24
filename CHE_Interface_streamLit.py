@@ -104,7 +104,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-st.markdown("<h1 class='centered-title'>Prédiction du Ratio Energie_Tereos Chevrières</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='centered-title'>Prédiction de la consommation  Energie_Chevrières</h1>", unsafe_allow_html=True)
 
 # List of parameter names
 parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
@@ -182,7 +182,7 @@ if st.sidebar.markdown('<div class="center-button"><button>Prédire le Ratio kWh
         #st.write(f"Prédiction du Ratio kWh /coss: {nrj}")
 
 
-        st.markdown(f"<h1 style='text-align: center; color: black;font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/coss </h1>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='text-align: center; color: white;font-size: 25px;'>Prédiction du Ratio NRJ : {nrj} kWh/coss </h1>", unsafe_allow_html=True)
 
         historique_df = pd.DataFrame({
         'Horodatage': st.session_state.timestamps, 'Prédiction du Ratio kWh /coss': st.session_state.conso_NRJ
