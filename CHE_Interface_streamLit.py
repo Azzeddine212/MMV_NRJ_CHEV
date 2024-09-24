@@ -83,7 +83,8 @@ if st.sidebar.button("Calcul Ratio Énergie"):
             'Débit JAE entrée évaporation': [parametres['Débit JAE entrée évaporation']],
             'Débit Sucre bande peseuse': [parametres['Débit Sucre bande peseuse']]
         })
-
+        df_CHE_testing = pd.DataFrame(df_CHE_testing)
+        
         # Standardiser les valeurs d'entrée
         x_testing = scaler.transform(df_CHE_testing)
 
