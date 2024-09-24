@@ -122,7 +122,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         st.dataframe(historique_df)
 
         # Tracer l'évolution des prédictions
-        plt.figure(figsize=(45, 6))
+        plt.figure(figsize=(9, 4))
         plt.plot(historique_df['Horodatage'], historique_df['Calcul Ratio Énergie'], marker='o', linestyle='-', color='b')
         plt.title("Évolution des prédictions de consommation d'énergie")
         plt.xlabel('Date Mesure')
