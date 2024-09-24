@@ -100,7 +100,8 @@ st.markdown("""
     .centered-title {
         text-align: center;        /* Centrer le texte */
         color: white;                /* Couleur du texte */
-        font-size: 55px;           /* Taille de la police */
+        font-size: 55px;           /* Taille de la police 
+        white-space: nowrap;       /* Empêcher le retour à la ligne */
     }
     </style>
 """, unsafe_allow_html=True)
