@@ -124,8 +124,8 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         # Tracer l'évolution des prédictions
         plt.figure(figsize=(15, 6))
         plt.plot(historique_df['Horodatage'], historique_df['Calcul Ratio Énergie'], marker='o', linestyle='-', color='b')
-        plt.plot(historique_df['Horodatage'], [target] * len(historique_df['Horodatage']), label=f'Conso NRJ cible CB24:{target} kwh/tcoss', color='red')
-        plt.axhline(y=155, color='red', linestyle='--', linewidth=2, label='Conso NRJ cible CB24:155 kwh/tcoss')
+        plt.plot(historique_df['Horodatage'], [target] * len(historique_df['Horodatage']),linestyle='--', linewidth=2 ,label=f'Conso NRJ cible CB24:{target} kwh/tcoss', color='red')
+        #plt.axhline(y=155, color='red', linestyle='--', linewidth=2, label='Conso NRJ cible CB24:155 kwh/tcoss')
 
         plt.title("Évolution des prédictions de consommation d'énergie")
         plt.xlabel('Date Mesure')
