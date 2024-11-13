@@ -120,7 +120,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
         """, unsafe_allow_html=True)
         st.markdown("<h1 class='azz-title'>Affichage des données enregistrées</h1>", unsafe_allow_html=True)
         st.dataframe(historique_df)
-        target = 142
+        target = 146
         # Tracer l'évolution des prédictions
         plt.figure(figsize=(15, 6))
         plt.plot(historique_df['Horodatage'], historique_df['Calcul Ratio Énergie'], marker='o', linestyle='-', color='b')
