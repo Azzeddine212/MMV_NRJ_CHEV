@@ -75,7 +75,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
     "Jus soutiré BW ",
     "T°- JAE sortie réchauffeur n°6 (ºC)",
     "JAE - Brix poids (g%g)",
-    "Brix- Jus sortie 6ème effet B (%)"
+    "Brix- Jus sortie 6ème effet B (%)",
     "Débit - JAE entrée évaporation",
     "Débit - Sucre bande peseuse ",  
 ]]
