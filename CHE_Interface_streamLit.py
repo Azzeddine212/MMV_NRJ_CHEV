@@ -58,90 +58,48 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown("<h1 class='centered-title'>Modèle MMV Énergie_Chevrières</h1>", unsafe_allow_html=True)
 
-# Liste des paramètres
-parametres_list = ['Jus soutiré RT', 'Jus soutiré BW', 'Temp. JAE sortie réchauffeur n°6',
-                   'Brix JAE', 'Brix sirop sortie evapo', 'Débit JAE entrée évaporation',
-                   'Débit Sucre bande peseuse']
+# Téléchargement du fichier Excel
+uploaded_file = st.sidebar.file_uploader("📂 Téléchargez votre fichier Excel", type=["xlsx"])
 
-# Dictionnaire pour stocker les valeurs d'entrée de l'utilisateur
-parametres = {}
-
-# Boucle pour créer des champs d'entrée pour chaque paramètre
-for parametre in parametres_list:
-    parametres[parametre] = st.sidebar.number_input(f"Veuillez entrer la valeur de {parametre}:", value=0.0)
 
 # Bouton pour déclencher la prédiction
 if st.sidebar.button("Calcul Ratio Énergie"):
-    try:
-        # Créer un DataFrame pour les entrées utilisateur
-        df_CHE_testing = pd.DataFrame({
-            'Jus soutiré RT': [float(parametres['Jus soutiré RT'])],
-            'Jus soutiré BW': [float(parametres['Jus soutiré BW'])],
-            ' Temp. JAE sortie réchauffeur n°6': [float(parametres['Temp. JAE sortie réchauffeur n°6'])],
-            'Brix JAE': [float(parametres['Brix JAE'])],
-            'Brix sirop sortie evapo': [float(parametres['Brix sirop sortie evapo'])],
-            'Débit JAE entrée évaporation': [float(parametres['Débit JAE entrée évaporation'])],
-            'Débit Sucre bande peseuse': [float(parametres['Débit Sucre bande peseuse'])]
-        })
-        df_CHE_testing = pd.DataFrame(df_CHE_testing)
-        
-        # Standardiser les valeurs d'entrée
-        x_testing = scaler.transform(df_CHE_testing)
+    df_CHE_testing = pd.read_excel(uploaded_file)
+    df_CHE_testing= df_CHE_testing[['Date','Jus soutiré RT','Jus soutiré BW','T°- JAE sortie réchauffeur n°6 (ºC)','JAE - Brix poids (g%g)','Brix- Jus sortie 6ème effet B (%)','Débit - JAE entrée évaporation','Débit - Sucre bande peseuse']]
+    df_CHE_testing["Date"] = pd.to_datetime(df_CHE_testing["Date"])
+    df_CHE_testing.set_index("Date", inplace=True)
+    # Standardiser les valeurs d'entrée
+    x_testing = scaler.transform(df_CHE_testing)
 
-        # Prédiction avec le modèle entraîné
-        gb_CHE_pred_testing = model_CHE_gb.predict(x_testing)
+    # Prédiction avec le modèle entraîné
+    gb_CHE_pred_testing = model_CHE_gb.predict(x_testing)
+    df_pred = pd.DataFrame(gb_CHE_pred_testing , columns=["Prédictions"], index= variables.index)
+    df_results = pd.concat([df_CHE_testing, df_pred], axis=1)
 
-        # Arrondir la prédiction
-        nrj = gb_CHE_pred_testing[0].round(2)
+    st.markdown("<h1 style='text-align: center; color: #003366; font-size: 28px;'>📊 Prédiction & Analyse</h1>", unsafe_allow_html=True)
 
-        # Enregistrer la valeur et l'horodatage
-        maintenant = datetime.now() + timedelta(hours=2)
-        st.session_state.timestamps.append(maintenant)
-        st.session_state.conso_NRJ.append(nrj)
 
-        # Affichage du résultat de la prédiction
-        st.markdown(f"<h1 style='text-align: center; color: white; font-size: 32px;'>Prédiction du Ratio NRJ : {nrj} kWh/tcoss </h1>", unsafe_allow_html=True)
+    # Plotting the predictions
+    fig, ax = plt.subplots(figsize=(20, 10), dpi=100)
+    mean = df_results["Prédictions"].mean()
+    std_dev = df_results["Prédictions"].std()
+    upper_limit = mean + 2 * std_dev
+    lower_limit = mean - 2 * std_dev
 
-        # Créer un DataFrame pour les données historiques
-        historique_df = pd.DataFrame({
-            'Horodatage': st.session_state.timestamps, 
-            'Calcul Ratio Énergie': st.session_state.conso_NRJ
-        })
+    # Ajouter une ligne horizontale représentant l'objectif
+    ax.axhline(y=objectif, color="red", linestyle="--", linewidth=2, label=f'Objectif : {objectif} kWh')
 
-        # Afficher les données enregistrées
-        st.markdown("""
-        <style>
-        .azz-title {
-            text-align: center;
-            color: white;
-            font-size: 40px;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-        st.markdown("<h1 class='azz-title'>Affichage des données enregistrées</h1>", unsafe_allow_html=True)
-        st.dataframe(historique_df)
-        target = 146
-        # Tracer l'évolution des prédictions
-        plt.figure(figsize=(15, 6))
-        plt.plot(historique_df['Horodatage'], historique_df['Calcul Ratio Énergie'], marker='o', linestyle='-', color='b')
-        plt.plot(historique_df['Horodatage'], [target] * len(historique_df['Horodatage']),linestyle='--', linewidth=2 ,label=f'Conso NRJ cible CB24:{target} kwh/tcoss', color='red')
-        #plt.axhline(y=155, color='red', linestyle='--', linewidth=2, label='Conso NRJ cible CB24:155 kwh/tcoss')
+    # Identifier et marquer les points au-dessus de l'objectif
+    au_dessus = df_results["Prédictions"] > objectif  # Masque booléen
+    ax.scatter(df_results.index[au_dessus], df_results["Prédictions"][au_dessus], color="red", label="Au-dessus de l'objectif", zorder=3)
 
-        plt.title("Évolution des prédictions de consommation d'énergie")
-        plt.xlabel('Date Mesure')
-        plt.ylabel('Prédiction du Ratio kWh/tcoss')
-        #plt.ylim(120, 220)
-        plt.grid(True)
-
-        # Formatage des dates sur l'axe x
-        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d %H:%M'))
-        plt.gcf().autofmt_xdate()
-
-        st.pyplot(plt)
-
-    except ValueError:
-        # Afficher une erreur si l'utilisateur entre une valeur invalide
-        st.error("Erreur: Veuillez entrer un nombre valide pour chaque paramètre.")
-    except Exception as e:
-        # Afficher tout autre type d'erreur
-        st.error(f"Une erreur est survenue : {e}")
+    ax.axhline(upper_limit, color="green", linestyle="dashed", linewidth=1, label=f"Mean + 2σ = {upper_limit:.2f}")
+    ax.axhline(lower_limit, color="green", linestyle="dashed", linewidth=1, label=f"Mean - 2σ = {lower_limit:.2f}")
+    ax.plot(df_results.index, df_results["Prédictions"], color="blue", label='Prédiction CB24', alpha=0.6)
+    #ax.bar(df_results.index, df_results["Prédictions"], color="red", label='Prédiction CB24', alpha=0.6)
+    ax.set_title("Prédiction CB24")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Conso NRJ (kWh/tcossette)")
+    ax.legend()
+    ax.grid(True)
+    st.pyplot(fig,use_container_width=False)
