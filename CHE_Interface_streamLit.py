@@ -65,8 +65,11 @@ uploaded_file = st.sidebar.file_uploader("📂 Téléchargez votre fichier Excel
 # Bouton pour déclencher la prédiction
 if st.sidebar.button("Calcul Ratio Énergie"):
     df_CHE_testing = pd.read_excel(uploaded_file)
+    
+    df_CHE_testing["Date"] = pd.to_datetime(df_CHE_testing["Date"])
+    df_CHE_testing.set_index("Date", inplace=True)
+    st.dataframe(df_CHE_testing.round(2)) 
     df_CHE_testing= df_CHE_testing[[
-    "Date",
     "Jus soutiré RT",
     "Jus soutiré BW",
     "T°- JAE sortie réchauffeur n°6 (ºC)",
@@ -75,8 +78,6 @@ if st.sidebar.button("Calcul Ratio Énergie"):
     "Débit - JAE entrée évaporation",
     "Débit - Sucre bande peseuse",  
 ]]
-    df_CHE_testing["Date"] = pd.to_datetime(df_CHE_testing["Date"])
-    df_CHE_testing.set_index("Date", inplace=True)
     # Standardiser les valeurs d'entrée
     x_testing = scaler.transform(df_CHE_testing)
 
