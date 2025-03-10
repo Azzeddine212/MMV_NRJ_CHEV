@@ -65,10 +65,10 @@ uploaded_file = st.sidebar.file_uploader("📂 Téléchargez votre fichier Excel
 # Bouton pour déclencher la prédiction
 if st.sidebar.button("Calcul Ratio Énergie"):
     df_CHE_testing = pd.read_excel(uploaded_file)
-    
     df_CHE_testing["Date"] = pd.to_datetime(df_CHE_testing["Date"])
     df_CHE_testing.set_index("Date", inplace=True)
     st.dataframe(df_CHE_testing.round(2)) 
+    
     df_CHE_testing= df_CHE_testing[[
     "Jus soutiré RT",
     "Jus soutiré BW",
