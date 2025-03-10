@@ -72,12 +72,12 @@ if st.sidebar.button("Calcul Ratio Énergie"):
     
     df_CHE_testing= df_CHE_testing[[
     "Jus soutiré RT",
-    "Jus soutiré BW",
+    "Jus soutiré BW ",
     "T°- JAE sortie réchauffeur n°6 (ºC)",
     "JAE - Brix poids (g%g)",
     "Brix- Jus sortie 6ème effet B (%)"
     "Débit - JAE entrée évaporation",
-    "Débit - Sucre bande peseuse",  
+    "Débit - Sucre bande peseuse ",  
 ]]
     # Standardiser les valeurs d'entrée
     x_testing = scaler.transform(df_CHE_testing)
