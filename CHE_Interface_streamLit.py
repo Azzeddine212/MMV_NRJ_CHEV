@@ -68,7 +68,7 @@ if st.sidebar.button("Calcul Ratio Énergie"):
     df_CHE_testing["Date"] = pd.to_datetime(df_CHE_testing["Date"])
     df_CHE_testing.set_index("Date", inplace=True)
     st.dataframe(df_CHE_testing.round(2)) 
-    
+    st.write(df_CHE_testing.columns.tolist())
     df_CHE_testing= df_CHE_testing[[
     "Jus soutiré RT",
     "Jus soutiré BW",
